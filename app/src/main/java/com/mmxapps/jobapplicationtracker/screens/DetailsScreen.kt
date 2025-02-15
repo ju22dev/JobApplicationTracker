@@ -1,5 +1,7 @@
 package com.mmxapps.jobapplicationtracker.screens
 
+import android.annotation.SuppressLint
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,22 +21,28 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.mmxapps.jobapplicationtracker.MainApplication
+import com.mmxapps.jobapplicationtracker.viewmodels.HomeViewModel
 
 class DetailsScreen : Screen {
+    @SuppressLint("ContextCastToActivity")
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val viewModel: HomeViewModel = viewModel(
+            viewModelStoreOwner = LocalContext.current as ComponentActivity
+        )
         val navigator = LocalNavigator.currentOrThrow
-        val viewModel = MainApplication.homeViewModel
         val jobDetail = viewModel.jobDetail
         var detailsText by remember { mutableStateOf(jobDetail.additionalNote) }
         Scaffold (
@@ -66,19 +74,6 @@ class DetailsScreen : Screen {
             ) {
                 item {
                     Text("THIS IS DETAILS SCREEN")
-                    /**
-                     *
-                     *
-                     *
-                     *
-                     * For editing creating another screen is much simpler
-                     *
-                     *
-                     *
-                     *
-                     *
-                     *
-                     */
                     Row {
                         Text("Date Applied: " + jobDetail.appliedDate)
                         IconButton(onClick = {}) { Icon(Icons.Default.Edit, "edit the details") }

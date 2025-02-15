@@ -10,7 +10,7 @@ import com.mmxapps.jobapplicationtracker.db.entities.Jobs
 @Dao
 interface JobsDao {
 
-    @Query("SELECT * FROM JOBS ORDER BY deadline DESC")
+    @Query("SELECT * FROM JOBS ORDER BY id")
     fun getAllJobs() : LiveData<List<Jobs>>
 
     @Insert

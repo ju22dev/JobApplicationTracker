@@ -8,8 +8,10 @@ import com.mmxapps.jobapplicationtracker.screens.HomeScreen
 import com.mmxapps.jobapplicationtracker.ui.theme.JobApplicationTrackerTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             JobApplicationTrackerTheme {
                 Navigator(HomeScreen())

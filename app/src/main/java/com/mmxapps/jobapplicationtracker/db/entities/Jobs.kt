@@ -16,5 +16,5 @@ data class Jobs(
     val transcriptGiven: String?,
     val additionalNote: String,
     val deadline: Date,
-    val stages: MutableList<String>?
+    val stages: String
     )

@@ -1,5 +1,8 @@
 package com.mmxapps.jobapplicationtracker.screens
 
+import android.annotation.SuppressLint
+import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,24 +27,34 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.mmxapps.jobapplicationtracker.MainApplication
+import com.mmxapps.jobapplicationtracker.viewmodels.HomeViewModel
 
 class HomeScreen: Screen {
+    @SuppressLint("ContextCastToActivity")
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val viewModel = MainApplication.homeViewModel
+        val viewModel: HomeViewModel = viewModel(
+            viewModelStoreOwner = LocalContext.current as ComponentActivity
+        )
         val navigator = LocalNavigator.currentOrThrow
-
+        val allJobs by viewModel.jobsList.observeAsState(initial = listOf())
+        Log.i("ubo",allJobs.toString())
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -49,7 +62,8 @@ class HomeScreen: Screen {
                     actions = {
                         IconButton(
                             onClick = {
-                                navigator.push(DetailsScreen())
+
+                                navigator.push(AddJobScreen())
                             },
                             enabled = true,
                         ) {
@@ -66,7 +80,7 @@ class HomeScreen: Screen {
                     .background(MaterialTheme.colorScheme.background),
                 contentPadding = PaddingValues(5.dp),
             ) {
-                val allJobs = viewModel.getAllJobsList()
+
                 items(allJobs.size) { index ->
                     Row(
                         modifier = Modifier
