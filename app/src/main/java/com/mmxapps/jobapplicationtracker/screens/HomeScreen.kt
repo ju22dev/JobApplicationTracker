@@ -15,6 +15,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -29,8 +31,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,7 +58,7 @@ class HomeScreen: Screen {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = {Text("Application Tracker")},
+                    title = {Text("Job Application Tracker")},
                     actions = {
                         IconButton(
                             onClick = {
@@ -107,24 +107,42 @@ class HomeScreen: Screen {
                             Text(text = allJobs[index].jobPosition, fontSize = 12.sp)
                         }
                         Column(
-                            modifier = Modifier.padding(start = 10.dp)
+                            modifier = Modifier.padding(start = 10.dp).fillMaxWidth(),
+                            horizontalAlignment = Alignment.End
                         ) {
-                            Text(text = allJobs[index].appliedDate.toString()) //don't write the year unless the date is not in the last 365 days.
-                            Button(
-                                onClick = {
-                                    viewModel.jobDetail = allJobs[index]
-                                    navigator.push(DetailsScreen())
-                                },
-                                shape = RoundedCornerShape(8.dp),
-                                colors = ButtonColors(
-                                    contentColor = Color(0x90000000),
-                                    containerColor = Color(0x66FF0000),
-                                    disabledContentColor = Color(0x66FF0000),
-                                    disabledContainerColor = Color(0x66FF0000),
-                                )
-                            ) {
-                                Text("More")
+                            Row {
+                                Icon(Icons.Default.DateRange, "date icon",Modifier.padding(end = 4.dp))
+                                Text(text = allJobs[index].appliedDate.toString().toString().split(" ").let {
+                                    return@let it[0]+", "+it[1]+" "+it[2].trimStart('0')+" "+it[5]
+                                })
                             }
+
+                            Row {
+                                Button(
+                                    onClick = {
+                                        viewModel.jobDetail = allJobs[index]
+                                        navigator.push(DetailsScreen())
+                                    },
+                                    shape = RoundedCornerShape(8.dp),
+                                    modifier = Modifier.padding(end = 8.dp),
+                                    colors = ButtonColors(
+                                        contentColor = Color(0x90000000),
+                                        containerColor = Color(0x66FF0000),
+                                        disabledContentColor = Color(0x66FF0000),
+                                        disabledContainerColor = Color(0x66FF0000),
+                                    )
+                                ) {
+                                    Text("More")
+                                }
+                                IconButton(
+                                    onClick = {
+                                        viewModel.deleteJob(id = allJobs[index].id)
+                                    }
+                                ) {
+                                    Icon(imageVector = Icons.Default.Delete, contentDescription = "delete icon",tint = Color(0xFFFF0000))
+                                }
+                            }
+
                         }
                     }
                     HorizontalDivider()

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,7 +25,6 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,7 +47,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -63,19 +60,15 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.mmxapps.jobapplicationtracker.components.DatePickerModal
 import com.mmxapps.jobapplicationtracker.viewmodels.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Date
-import java.util.concurrent.Executors
 
 class AddJobScreen: Screen {
     @SuppressLint("ContextCastToActivity")
-    @OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -228,7 +221,7 @@ class AddJobScreen: Screen {
                         Icon(Icons.Default.DateRange, "date icon", Modifier
                             .padding(start = 8.dp))
                         Text(text = "Applied on:\n"+Date(appliedDate).toString().split(" ").let {
-                            return@let it[0]+" "+it[1]+" "+it[2].trimStart('0')+" "+it[5]
+                            return@let it[0]+", "+it[1]+" "+it[2].trimStart('0')+" "+it[5]
                         },
                             modifier = Modifier.padding(5.dp))
                         IconButton(onClick = {
@@ -281,7 +274,7 @@ class AddJobScreen: Screen {
                         Icon(Icons.Default.DateRange, "date icon", Modifier
                             .padding(start = 8.dp))
                         Text(text = "Deadline:\n"+Date(deadline).toString().split(" ").let {
-                            return@let it[0]+" "+it[1]+" "+it[2].trimStart('0')+" "+it[5]
+                            return@let it[0]+", "+it[1]+" "+it[2].trimStart('0')+" "+it[5]
                         },
                             modifier = Modifier.padding(5.dp))
                         IconButton(onClick = {
