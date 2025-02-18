@@ -52,7 +52,7 @@ class DetailsScreen : Screen {
                         IconButton(
                             onClick = {
                                 //save the current state and content then go back to parent
-                                navigator.pop()
+                                navigator.popUntil { it == HomeScreen() }
                             }
                         ) { Icon(Icons.AutoMirrored.Filled.ArrowBack,"go back button")} },
                     title = { Text("Edit") },

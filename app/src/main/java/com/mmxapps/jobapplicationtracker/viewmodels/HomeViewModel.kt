@@ -7,51 +7,52 @@ import com.mmxapps.jobapplicationtracker.MainApplication
 import com.mmxapps.jobapplicationtracker.db.entities.Jobs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.Date
 
 class HomeViewModel: ViewModel() {
 
     private val jobsDao = MainApplication.jobsDatabase.getJobsDao()
     var jobsList : LiveData<List<Jobs>> = jobsDao.getAllJobs()
     lateinit var jobDetail: Jobs
+    var latestAddedJob : LiveData<Jobs> = jobsDao.getLatestAddedJob()
 
 
     fun addJob(companyName: String,
                jobPosition: String,
-               appliedDate: String,
+               appliedDate: Long,
                resumeGiven : String = "",
                coverLetterGiven :String = "",
                transcriptGiven:String = "",
                additionalNote:String = "",
-               deadline:String,
+               deadline:Long,
                stages:String
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            jobsDao.addJob(
-                Jobs(
-                    companyName = companyName,
-                    jobPosition = jobPosition,
-                    appliedDate = SimpleDateFormat("d MMM yyyy", Locale.ENGLISH).parse(appliedDate)!!,
-                    resumeGiven = resumeGiven,
-                    coverLetterGiven = coverLetterGiven,
-                    transcriptGiven = transcriptGiven,
-                    additionalNote = additionalNote,
-                    deadline = SimpleDateFormat("d MMM yyyy", Locale.ENGLISH).parse(deadline)!!,
-                    stages = stages
-                )
+
+        jobsDao.addJob(
+            Jobs(
+                companyName = companyName,
+                jobPosition = jobPosition,
+                appliedDate = Date(appliedDate),
+                resumeGiven = resumeGiven,
+                coverLetterGiven = coverLetterGiven,
+                transcriptGiven = transcriptGiven,
+                additionalNote = additionalNote,
+                deadline = Date(deadline),
+                stages = stages
             )
-        }
+        )
+
+
     }
 
     fun updateJob(companyName: String,
                   jobPosition: String,
-                  appliedDate: String,
+                  appliedDate: Long,
                   resumeGiven : String = "",
                   coverLetterGiven :String = "",
                   transcriptGiven:String = "",
                   additionalNote:String = "",
-                  deadline:String,
+                  deadline:Long,
                   stages:String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -59,12 +60,12 @@ class HomeViewModel: ViewModel() {
                 Jobs(
                     companyName = companyName,
                     jobPosition = jobPosition,
-                    appliedDate = SimpleDateFormat("d MMM yyyy", Locale.ENGLISH).parse(appliedDate)!!,
+                    appliedDate = Date(appliedDate),
                     resumeGiven = resumeGiven,
                     coverLetterGiven = coverLetterGiven,
                     transcriptGiven = transcriptGiven,
                     additionalNote = additionalNote,
-                    deadline = SimpleDateFormat("d MMM yyyy", Locale.ENGLISH).parse(deadline)!!,
+                    deadline = Date(deadline),
                     stages = stages
                 )
             )

@@ -22,4 +22,7 @@ interface JobsDao {
     @Update
     fun updateJob(job: Jobs)
 
+    @Query("SELECT * FROM JOBS ORDER BY id DESC LIMIT 1")
+    fun getLatestAddedJob(): LiveData<Jobs>
+
 }
