@@ -65,8 +65,13 @@ dependencies {
     // Screen Model
     implementation(libs.voyager.screenmodel)
 
+    // Room
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     annotationProcessor(libs.androidx.room.compiler)
     implementation (libs.androidx.lifecycle.viewmodel.compose)
+
+    //Material icons
+
+    implementation(libs.androidx.material.icons.extended)
 }

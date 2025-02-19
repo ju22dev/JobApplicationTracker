@@ -45,19 +45,22 @@ class HomeViewModel: ViewModel() {
 
     }
 
-    fun updateJob(companyName: String,
-                  jobPosition: String,
-                  appliedDate: Long,
-                  resumeGiven : String = "",
-                  coverLetterGiven :String = "",
-                  transcriptGiven:String = "",
-                  additionalNote:String = "",
-                  deadline:Long,
-                  stages:String
+    fun updateJob(
+        companyName: String,
+        jobPosition: String,
+        appliedDate: Long,
+        resumeGiven: String = "",
+        coverLetterGiven: String = "",
+        transcriptGiven: String = "",
+        additionalNote: String = "",
+        deadline: Long,
+        stages: String,
+        id: Int
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             jobsDao.updateJob(
                 Jobs(
+                    id = id,
                     companyName = companyName,
                     jobPosition = jobPosition,
                     appliedDate = Date(appliedDate),

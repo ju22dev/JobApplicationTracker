@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AssignmentTurnedIn
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Email
@@ -91,8 +93,9 @@ class HomeScreen: Screen {
                     ) {
 
                         Icon(
-                            imageVector = Icons.Default.Email,
+                            imageVector = Icons.Default.AssignmentTurnedIn,
                             contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier
                                 .background(
                                     color = MaterialTheme.colorScheme.outline,
@@ -101,18 +104,18 @@ class HomeScreen: Screen {
                                 .padding(8.dp)
                         )
                         Column(
-                            modifier = Modifier.padding(start = 10.dp)
+                            modifier = Modifier.padding(start = 10.dp).weight(1f)
                         ) {
                             Text(text = allJobs[index].companyName, fontSize = 16.sp, fontWeight = FontWeight.Bold)
                             Text(text = allJobs[index].jobPosition, fontSize = 12.sp)
                         }
                         Column(
-                            modifier = Modifier.padding(start = 10.dp).fillMaxWidth(),
+                            modifier = Modifier.padding(start = 10.dp),
                             horizontalAlignment = Alignment.End
                         ) {
                             Row {
                                 Icon(Icons.Default.DateRange, "date icon",Modifier.padding(end = 4.dp))
-                                Text(text = allJobs[index].appliedDate.toString().toString().split(" ").let {
+                                Text(text = allJobs[index].appliedDate.toString().split(" ").let {
                                     return@let it[0]+", "+it[1]+" "+it[2].trimStart('0')+" "+it[5]
                                 })
                             }
@@ -124,15 +127,15 @@ class HomeScreen: Screen {
                                         navigator.push(DetailsScreen())
                                     },
                                     shape = RoundedCornerShape(8.dp),
-                                    modifier = Modifier.padding(end = 8.dp),
+                                    modifier = Modifier.padding(end = 2.dp).size(width = 80.dp, height = 35.dp),
                                     colors = ButtonColors(
-                                        contentColor = Color(0x90000000),
-                                        containerColor = Color(0x66FF0000),
+                                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                                        containerColor = MaterialTheme.colorScheme.outline,
                                         disabledContentColor = Color(0x66FF0000),
                                         disabledContainerColor = Color(0x66FF0000),
                                     )
                                 ) {
-                                    Text("More")
+                                    Text("More", color = MaterialTheme.colorScheme.onPrimary)
                                 }
                                 IconButton(
                                     onClick = {
